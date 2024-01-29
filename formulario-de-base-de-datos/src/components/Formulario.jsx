@@ -1,120 +1,107 @@
 import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import './Formulario.css';
-import { Tabla } from "./Listado";
 
-const Formulario = ( {setAlert} ) => {
-    const [nombre, setNombre] = useState('');
-    const [correo, setCorreo] = useState('');
-    const [edad, setEdad] = useState('');
-    const [cargo, setCargo] = useState('');
-    const [fono, setFono] = useState('');
-    const [tabla, setTabla] = useState(Tabla);
+const Formulario = ( {colab, setColab, setAlert} ) => {
+    const [newColab, setNewColab] = useState ({
+        id: colab.length + 1,
+        nombre: '',
+        correo: '',
+        edad: '',
+        cargo: '',
+        fono: ''
+    });
 
-    const validarDatos = (e) => {
-        e.preventDefault();
+    const validarDatos = () => {
+        const {nombre, correo, edad, cargo, fono} = newColab;
 
         if ( nombre === '' || correo === '' || edad === '' || cargo === '' || fono === '') {
             
             setAlert('Debe completar todos los campos.');
         } else if (!correoRegistro(correo)) {
             setAlert('Formato de correo inválido');
+        } else if (fono.length != 8){
+            setAlert('Número de teléfono inválido, ingresa 8 dígitos');
         } else {
-            setAlert('¡Felicitaciones, te registraste exitosamente!')
-
-            setNombre('');
-            setCorreo('');
-            setEdad('');
-            setCargo('');
-            setFono('');
+            setAlert('¡Felicitaciones, te registraste exitosamente!');
+        } 
         };
-    };
-
-    const handleNombre = (e) => {
-        const name = e.target.value
-        setNombre(name)
-    };
-
-    const handleCorreo = (e) => {
-        const email = e.taerget.value
-        setCorreo(email)
-    };
-
-    const handleEdad = (e) => {
-        const age = e.taerget.value
-        setEdad(age)
-    };
-
-    const handleCargo = (e) => {
-        const job = e.taerget.value
-        setCargo(job)
-    };
-
-    const handleFono = (e) => {
-        const phone = e.target.value
-        setFono(phone)
-    };
-
-    const handleSubit = () => {
-        setTabla ([...tabla, {
-            td: id,
-            td: nombre,
-            correo: correo,
-            edad: edad,
-            cargo: cargo,
-            fono: fono,
-        }])
-    };
-
-    const inputData = [
-        {handler: handleNombre},
-        {handler: handleCorreo},
-        {handler: handleEdad},
-        {handler: handleCargo},
-        {handler: handleFono},
-    ];
-    /*const [addColab, setAddColab] = useState('');
-    setAddColab(ev.Listado.add.value);*/
-
-    const correoRegistro = (correo) => {
-        const expresionCorreo = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
-        return expresionCorreo.test(correo);
+        
+        const correoRegistro = (correo) => {
+            const expresionCorreo = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+            return expresionCorreo.test(correo)
+        };
+        
+        const addColab = () => {
+            setColab([...colab, newColab])
+            setNewColab({
+                id: colab.length + 2,
+                nombre: '',
+                correo: '',
+                edad: '',
+                cargo: '',
+                fono: ''
+            });
+        };
+        
+        const handleSubmit = e => {
+            e.preventDefault()
+            if(validarDatos()){
+                addColab()
+            };
+        };
+        
+    const handleChange = (dato, valor) => {
+        setNewColab(datosPrew => ({
+            ...datosPrew,
+            [dato]: valor
+            })
+            );
     };
 
     return (
         <>
-            <form onSubmit={validarDatos}>
+            <form onSubmit={handleSubmit}>
                 <div className="form-content">
-                    {inputData.map ((inputElement) =>
                     <input
                     type="text"
+                    name="Nombre"
                     placeholder="Nombre Completo"
-                    onChange={(e) => setNombre(e.target.value)}
-                    value={nombre}
-                    handler={inputElement.handler}/>
-                    )};
+                    onChange={e => handleChange('nombre', e.target.value)}
+                    value={newColab.nombre}/>
 
-                    <input type="text"
+                    <input 
+                    type="text"
+                    name="Correo"
                     placeholder="Correo"
-                    onChange={(e) => setCorreo(e.target.value)}
-                    value={correo}/>
+                    onChange={e => handleChange('correo', e.target.value)}
+                    value={newColab.correo}/>
                     
-                    <input type="text"
+                    <input 
+                    type="number"
+                    min={1}
+                    name="Edad"
                     placeholder="Edad"
-                    onChange={(e) => setEdad(e.target.value)}
-                    value={edad}/>
+                    onChange={e => handleChange('edad', e.target.value)}
+                    value={newColab.edad}/>
                     
-                    <input type="text"
+                    <input 
+                    type="text"
+                    name="Cargo"
                     placeholder="Cargo"
-                    onChange={(e) => setCargo(e.target.value)}
-                    value={cargo}/>
+                    onChange={e => handleChange('cargo', e.target.value)}
+                    value={newColab.cargo}/>
                     
-                    <input type="text"
+                    <input 
+                    type="tel"
+                    name="Teléfono"
                     placeholder="Teléfono"
-                    onChange={(e) => setFono(e.target.value)}
-                    value={fono}/>
+                    onChange={e => handleChange('fono', e.target.value)}
+                    value={newColab.fono}/>
 
-                    <Button variant="Send" type="submit" onClick={handleSubit}>Enviar</Button>
+                    <Button variant="flat" type="submit">
+                        Enviar
+                    </Button>
                 </div>
             </form>
         </>

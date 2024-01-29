@@ -9,26 +9,27 @@ export const Tabla = ( {data} ) => {
     <Table striped bordered hover variant="dark" className='tabla-container'>
       <thead className='tabla-head'>
         <tr>
-            <th>ID</th>
             <th>Nombre</th>
-            <th>Edad</th>
             <th>Correo</th>
-            <th>Teléfono</th>
+            <th>Edad</th>
             <th>Cargo</th>
+            <th>Teléfono</th>
         </tr>
       </thead>
       <tbody className='tabla-body'>
         {data.length ? (
-            data.map((user, index) => (
-                <tr key={index}>
-                    <td>{user.id}</td>
-                    <td>{user.nombre}</td>
-                    <td>{user.edad}</td>
-                    <td>{user.correo}</td>
-                    <td>{user.fono}</td>
-                    <td>{user.cargo}</td>
+            data.map(colab => {
+              const {id, nombre, correo, edad, cargo, fono} = colab
+              return (
+                <tr key={id}>
+                    <td>{nombre}</td>
+                    <td>{correo}</td>
+                    <td>{edad}</td>
+                    <td>{cargo}</td>
+                    <td>{fono}</td>
                 </tr>
-            ))
+              )
+              })
         ) : (
             <tr>
                 <td colSpan={6}>

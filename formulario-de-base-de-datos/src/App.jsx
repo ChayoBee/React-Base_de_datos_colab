@@ -1,17 +1,17 @@
 import { useState } from 'react';
-import './App.css';
-import Formulario from './components/Formulario';
-import Alert from './components/Alertas/Alert';
 import { Buscador } from './components/Buscador';
 import { baseColab } from './Lista';
 import { Tabla } from './components/Listado';
+import Formulario from './components/Formulario';
+import Alert from './components/Alertas/Alert';
+import './App.css';
 
 
 function App() {
   const [filtro, setFiltro] = useState(baseColab);
   const [alert, setAlert] = useState(''); 
   const [colab, setColab] = useState(baseColab); 
-console.log(filtro);
+
     return (
       <>
     <main className='content-all'>
@@ -23,11 +23,11 @@ console.log(filtro);
 
         <div className='content-style'>
           <h2 className='title'>Ingresa Nuevos Datos</h2>
-          <Alert alert = {alert} />
           <Formulario 
-          setAlert = {setAlert}
           colab={colab}
-          setColab={setColab}/>
+          setColab={setColab}
+          setAlert = {setAlert}/>
+          <Alert alert = {alert} />
         </div>
     </main>
     </>
