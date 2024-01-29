@@ -20,6 +20,8 @@
 .content-all {
   gap: 50px;
   margin: 30px;
+  display: flex;
+  justify-content: row;
 }
 
 .title2 {

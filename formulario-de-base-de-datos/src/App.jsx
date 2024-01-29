@@ -5,36 +5,31 @@ import Alert from './components/Alertas/Alert';
 import { Buscador } from './components/Buscador';
 import { baseColab } from './Lista';
 import { Tabla } from './components/Listado';
-import { Container, Col, Row } from 'react-bootstrap';
-//import { useForm } from 'react-hook-form';
+
 
 function App() {
   const [filtro, setFiltro] = useState(baseColab);
-  const [alert, setAlert] = useState('');  
-
- /* const { register, handleSubit } = useForm();
-
-  const onSubmit = (data) => {
-      console.log(data);
-  };*/
-
+  const [alert, setAlert] = useState(''); 
+  const [colab, setColab] = useState(baseColab); 
+console.log(filtro);
     return (
       <>
-    <Container >
-      <Row >
-        <Col md={8}>
+    <main className='content-all'>
+        <div>
           <h2 className='title2'>Buscador</h2>
           <Buscador data={baseColab} setFiltro ={setFiltro}/>
           <Tabla data={filtro}/>
-        </Col>
+        </div>
 
-        <Col md={4} className='content-style'>
+        <div className='content-style'>
           <h2 className='title'>Ingresa Nuevos Datos</h2>
           <Alert alert = {alert} />
-          <Formulario setAlert = {setAlert}/>
-        </Col>
-      </Row>
-    </Container>
+          <Formulario 
+          setAlert = {setAlert}
+          colab={colab}
+          setColab={setColab}/>
+        </div>
+    </main>
     </>
   );
 };
